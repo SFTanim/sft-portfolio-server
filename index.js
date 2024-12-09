@@ -9,7 +9,10 @@ app.use(express.json());
 
 app.use(
   cors({
-    origin: ["http://localhost:5173"],
+    origin: [
+      "http://localhost:5173",
+      "https://stupendous-faun-dabb78.netlify.app",
+    ],
     credentials: true,
   })
 );
@@ -42,19 +45,19 @@ async function run() {
     });
 
     app.post("/users", async (req, res) => {
-        const userInfo = req.body;
-        const query = { email: userInfo.email };
-        const existingUser = await usersCollections.findOne(query);
-  
-        if (existingUser) {
-          return res.send({
-            message: "User Email Already Exists",
-            insertedId: null,
-          });
-        }
-        const result = await usersCollections.insertOne(userInfo);
-        res.send(result);
-      });
+      const userInfo = req.body;
+      const query = { email: userInfo.email };
+      const existingUser = await usersCollections.findOne(query);
+
+      if (existingUser) {
+        return res.send({
+          message: "User Email Already Exists",
+          insertedId: null,
+        });
+      }
+      const result = await usersCollections.insertOne(userInfo);
+      res.send(result);
+    });
   } finally {
     // Ensures that the client will close when you finish/error
     // await client.close();
