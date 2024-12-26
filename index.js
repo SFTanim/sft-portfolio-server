@@ -5,6 +5,7 @@ const cors = require("cors");
 const port = process.env.PORT || 5000;
 require("dotenv").config();
 
+
 app.use(express.json());
 
 app.use(
@@ -131,7 +132,7 @@ async function run() {
     });
 
     // Blog: Fine a single one
-    app.get("/blog/:id", async (req, res) => {
+    app.get("/blog/:id", verifyToken, async (req, res) => {
       const id = req.params.id;
       const filter = { _id: new ObjectId(id) };
       const result = await blogCollections.findOne(filter);
